@@ -2,20 +2,55 @@
 // var moment = require ('moment');
 var date = moment().format('dddd, MMMM Do YYYY');
 var currentTime = moment().format('hh:mm a');
-$("#currentDay").append(date + "<br><br>" + currentTime);
-
-
 var currentHour = parseFloat(moment().format('HH'));
-console.log(currentHour);
+var tasks = [];
 
-for (i=9; i<18; i++){
-    if (parseFloat($(".task").attr("id")) < currentHour) {
-        $("#"+i).addClass("past");
-    }
-    else if (parseFloat($(".task").attr("id")) = currentHour) {
-        $("#"+i).addClass("current");
-    }
-    else {
-        $("#"+i).addClass("future");
+refreshTime();
+renderTasks();
+
+
+function refreshTime() {
+    $("#currentDay").append(date + "<br><br>" + currentTime);
+    
+    for (i=9; i<18; i++){
+        if (parseFloat($(".task").attr("id")) < currentHour) {
+            $("#"+i).addClass("past");
+        }
+        else if (parseFloat($(".task").attr("id")) = currentHour) {
+            $("#"+i).addClass("current");
+        }
+        else {
+            $("#"+i).addClass("future");
+        }
     }
 }
+
+
+function storeTasks() {
+    tasks = [];
+    for (i=0; i<9; i++) {
+        var task = $("#"+i).val();
+        tasks.push(task);  
+    }
+    console.log(tasks);
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+}
+
+
+function renderTasks() {
+    var storedTasks = JSON.parse(localStorage.getItem("tasks"));
+    if (storedTasks !== null) {
+      tasks = storedTasks;
+    }
+    for (i=0; i<9; i++) {
+        $("#"+i).val(tasks[i]);
+    }
+}
+
+
+
+$(".saveBtn").on("click", function(event){
+    event.preventDefault();
+    storeTasks();
+    renderTasks();
+})
