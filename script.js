@@ -13,11 +13,13 @@ function refreshTime() {
     $("#currentDay").append(date + "<br><br>" + currentTime);
     
     for (i=9; i<18; i++){
-        if (parseFloat($(".task").attr("id")) < currentHour) {
+        // if (parseFloat($(".task").attr("id")) < currentHour) {
+        if ( i < currentHour) {
             $("#"+i).addClass("past");
         }
-        else if (parseFloat($(".task").attr("id")) = currentHour) {
-            $("#"+i).addClass("current");
+        // else if (parseFloat($(".task").attr("id")) == currentHour) {
+            else if (i == currentHour) {
+            $("#"+i).addClass("present");
         }
         else {
             $("#"+i).addClass("future");
